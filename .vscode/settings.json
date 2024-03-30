@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "tort.h": "c",
+        "transition.h": "c",
+        "crumbs.h": "c",
+        "util.h": "c",
+        "collision.h": "c"
+    },
+    "cmake.configureOnOpen": false
+}

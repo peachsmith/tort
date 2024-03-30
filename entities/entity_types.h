@@ -1,0 +1,14 @@
+#ifndef TORT_ENTITY_TYPES_H
+#define TORT_ENTITY_TYPES_H
+
+#define ENTITY_TYPE_USER 0
+#define ENTITY_TYPE_TRANSITION 1
+#define ENTITY_TYPE_TERRAIN 2
+#define ENTITY_TYPE_SIGN_INTERACTION 3
+#define ENTITY_TYPE_SIGN_DIALOG 4
+#define ENTITY_TYPE_SMALL_BLOCK 5
+
+// total number of entity types
+#define ENTITY_TYPE_MAX 6
+
+#endif
