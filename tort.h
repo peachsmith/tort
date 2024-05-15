@@ -34,6 +34,12 @@
 #define TORT_MAX_FONTS 10
 #define TORT_MAX_SOUNDS 10
 
+// directions that entities can face
+#define TORT_DIR_DOWN 1
+#define TORT_DIR_UP 2
+#define TORT_DIR_LEFT 3
+#define TORT_DIR_RIGHT 4
+
 // extension structure definition
 struct cr_extension
 {
