@@ -3,7 +3,7 @@
 #include "scenes/scenes.h"
 #include "entities/transition.h"
 #include "entities/user.h"
-#include "entities/terrain.h"
+#include "entities/noodletown_map.h"
 #include "entities/sign_interaction.h"
 #include "entities/sign_dialog.h"
 #include "entities/block.h"
@@ -30,7 +30,7 @@ void tort_load_noodletown_scene(cr_app *app)
     handles[TORT_HANDLE_TRANSITION] = tort_create_transition(app);
 
     // contents
-    tort_create_terrain(app, 0, 0);
+    tort_create_noodletown_map(app, 0, 0);
     tort_create_sign_interaction(app, 80, 48);
     tort_create_small_block(app, 81, 49);
 

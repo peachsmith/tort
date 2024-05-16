@@ -4,7 +4,11 @@
         "transition.h": "c",
         "crumbs.h": "c",
         "util.h": "c",
-        "collision.h": "c"
+        "collision.h": "c",
+        "noodletown_map.h": "c",
+        "sign_interaction.h": "c",
+        "sprite.h": "c",
+        "user.h": "c"
     },
     "cmake.configureOnOpen": false
 }

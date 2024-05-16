@@ -5,7 +5,7 @@
 #include "entities/entity_types.h"
 #include "entities/transition.h"
 #include "entities/user.h"
-#include "entities/terrain.h"
+#include "entities/noodletown_map.h"
 #include "entities/sign_interaction.h"
 #include "entities/sign_dialog.h"
 #include "entities/block.h"
@@ -295,7 +295,7 @@ int tort_init_app(cr_app *app)
     // entity type registration
     tort_register_transition(&(app->entity_types[ENTITY_TYPE_TRANSITION]));
     tort_register_user(&(app->entity_types[ENTITY_TYPE_USER]));
-    tort_register_terrain(&(app->entity_types[ENTITY_TYPE_TERRAIN]));
+    tort_register_noodletown_map(&(app->entity_types[ENTITY_TYPE_NOODLETOWN_MAP]));
     tort_register_sign_interaction(&(app->entity_types[ENTITY_TYPE_SIGN_INTERACTION]));
     tort_register_sign_dialog(&(app->entity_types[ENTITY_TYPE_SIGN_DIALOG]));
     tort_register_small_block(&(app->entity_types[ENTITY_TYPE_SMALL_BLOCK]));
