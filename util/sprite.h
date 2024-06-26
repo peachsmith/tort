@@ -21,6 +21,7 @@ void sprite_draw_roof_6(cr_app *app, int x, int y);
 
 void sprite_draw_wall_1(cr_app *app, int x, int y);
 void sprite_draw_door(cr_app *app, int x, int y);
+void sprite_draw_wood_floor(cr_app *app, int x, int y);
 
 //----------------------------------------------------------------------------
 // entity renderers

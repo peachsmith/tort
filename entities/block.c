@@ -8,6 +8,11 @@
 #include "common/util.h"
 #include "common/collision.h"
 
+#define MAX_SCENE_LOADERS 2
+static void (*scene_loaders[MAX_SCENE_LOADERS])(cr_app *) = {
+    tort_load_noodletown_scene,
+    tort_load_my_house_scene};
+
 static void begin_transition(cr_app *app, cr_func loader, cr_func input)
 {
     app->transition_loader = loader;
@@ -86,10 +91,15 @@ static void collide_block(
 
     if (block->type == ENTITY_TYPE_TRANSITION_BLOCK)
     {
+        int scene_id = block->cursor_x;
+        if (scene_id >= MAX_SCENE_LOADERS)
+        {
+            scene_id = TORT_SCENE_NOODLETOWN;
+        }
+
         app->pause = 1;
         cr_pop_input_handler(app);
-        begin_transition(app, tort_load_my_house_scene, tort_main_input);
-        printf("collided with transition block\n");
+        begin_transition(app, scene_loaders[scene_id], tort_main_input);
     }
 }
 
@@ -196,7 +206,7 @@ void tort_register_transition_block(cr_entity_type *t)
     t->collide = collide_block;
 }
 
-cr_entity *tort_create_transition_block(cr_app *app, int x, int y)
+cr_entity *tort_create_transition_block(cr_app *app, int x, int y, int type)
 {
     cr_entity *block = NULL;
 
@@ -209,6 +219,7 @@ cr_entity *tort_create_transition_block(cr_app *app, int x, int y)
     block->type = ENTITY_TYPE_TRANSITION_BLOCK;
     block->x_pos = x;
     block->y_pos = y;
+    block->cursor_x = type; // the destination scene
 
     return block;
 }

@@ -17,7 +17,7 @@ cr_entity *tort_create_narrow_tile_block(cr_app *, int, int);
 
 // collision triggers a scene transition
 void tort_register_transition_block(cr_entity_type *);
-cr_entity *tort_create_transition_block(cr_app *, int, int);
+cr_entity *tort_create_transition_block(cr_app *, int, int, int);
 
 // long, rectangular blocks
 void tort_register_horizontal_block(cr_entity_type *);

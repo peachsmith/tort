@@ -31,15 +31,11 @@ void tort_load_my_house_scene(cr_app *app)
     handles[TORT_HANDLE_TRANSITION] = tort_create_transition(app);
 
     // contents
-    tort_create_my_house_map(app, 0, 0);
+    tort_create_my_house_map(app, 64, 35);
 
-    // tort_create_sign_interaction(app, 80 + x_offset, 48 + y_offset);
-    // tort_create_sign_interaction(app, 96 + x_offset, 48 + y_offset);
-    // tort_create_sign_interaction(app, 112 + x_offset, 48 + y_offset);
-    // tort_create_sign_interaction(app, 80 + x_offset, 64 + y_offset);
-    // tort_create_sign_interaction(app, 96 + x_offset, 64 + y_offset);
-    // tort_create_sign_interaction(app, 112 + x_offset, 64 + y_offset);
+    // trigger to transition to noodletown
+    tort_create_transition_block(app, 112 + x_offset, 90 + y_offset, TORT_SCENE_NOODLETOWN);
 
     // user
-    app->extension->entity_handles[TORT_HANDLE_USER] = tort_create_user(app, 112, 64);
+    app->extension->entity_handles[TORT_HANDLE_USER] = tort_create_user(app, 112, 73);
 }

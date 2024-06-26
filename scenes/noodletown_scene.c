@@ -52,7 +52,8 @@ void tort_load_noodletown_scene(cr_app *app)
     tort_create_narrow_tile_block(app, 160 + x_offset, 32 + y_offset);
     tort_create_narrow_tile_block(app, 193 + x_offset, 32 + y_offset);
 
-    tort_create_transition_block(app, 175 + x_offset, 32 + y_offset);
+    // trigger to transition to my house
+    tort_create_transition_block(app, 175 + x_offset, 32 + y_offset, TORT_SCENE_MY_HOUSE);
 
     tort_create_horizontal_block(app, x_offset, 160 + y_offset);
     tort_create_horizontal_block(app, 64 + x_offset, 160 + y_offset);
