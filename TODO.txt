@@ -1,0 +1,6 @@
+house (external)
+pond
+flowers
+multiple versions of tiles (e.g. grass, dirt, and edges and corners)
+fences
+house (internal)

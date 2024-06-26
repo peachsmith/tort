@@ -8,7 +8,8 @@
         "noodletown_map.h": "c",
         "sign_interaction.h": "c",
         "sprite.h": "c",
-        "user.h": "c"
+        "user.h": "c",
+        "entity_types.h": "c"
     },
     "cmake.configureOnOpen": false
 }

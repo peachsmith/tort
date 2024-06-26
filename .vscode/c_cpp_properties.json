@@ -4,8 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:\\msys64\\mingw64\\include",
-                "${userProfile}\\opt\\crumbs\\include"
+                "${CRUMBS_HOME}\\include"
             ],
             "defines": [
                 "_DEBUG",

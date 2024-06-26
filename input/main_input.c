@@ -211,6 +211,14 @@ void tort_main_input(cr_app *app)
                     int min_ox = o.dx0 < o.dx1 ? o.dx0 : o.dx1;
                     int min_oy = o.dy0 < o.dy1 ? o.dy0 : o.dy1;
                     int_dir = min_ox < min_oy ? int_dir_x : int_dir_y;
+                    if (!min_ox)
+                    {
+                        int_dir = int_dir_y;
+                    }
+                    if (!min_oy)
+                    {
+                        int_dir = int_dir_x;
+                    }
                 }
             }
         }
@@ -231,14 +239,38 @@ void tort_main_input(cr_app *app)
     //-------------------------------------------------
     // BEGIN debug controls
 
+    // render hitboxes
     if (cr_consume_input(app, CR_KEYCODE_LEFTBRACKET))
     {
         app->debug.hitboxes = app->debug.hitboxes ? 0 : 1;
     }
 
+    // render camera boundaries
     if (cr_consume_input(app, CR_KEYCODE_RIGHTBRACKET))
     {
         app->debug.camera = app->debug.camera ? 0 : 1;
+    }
+
+    // move by 1 pixel
+    if (cr_consume_input(app, CR_KEYCODE_A))
+    {
+        target->x_pos--;
+        return;
+    }
+    if (cr_consume_input(app, CR_KEYCODE_D))
+    {
+        target->x_pos++;
+        return;
+    }
+    if (cr_consume_input(app, CR_KEYCODE_W))
+    {
+        target->y_pos--;
+        return;
+    }
+    if (cr_consume_input(app, CR_KEYCODE_S))
+    {
+        target->y_pos++;
+        return;
     }
 
     // END debug controls

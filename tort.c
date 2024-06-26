@@ -6,6 +6,7 @@
 #include "entities/transition.h"
 #include "entities/user.h"
 #include "entities/noodletown_map.h"
+#include "entities/my_house_map.h"
 #include "entities/sign_interaction.h"
 #include "entities/sign_dialog.h"
 #include "entities/block.h"
@@ -93,6 +94,13 @@ static void update(cr_app *app)
     }
 
     app->ticks++;
+
+    // Toggle the 60 frame counter between 0 and 1 every 60 frames.
+    if (app->ticks % 60 == 0)
+    {
+        int count_60 = app->extension->counters[TORT_COUNTER_60_FRAMES];
+        app->extension->counters[TORT_COUNTER_60_FRAMES] = count_60 ? 0 : 1;
+    }
 
     // Handle input.
     if (app->input != NULL && app->input_count > 0)
@@ -296,15 +304,23 @@ int tort_init_app(cr_app *app)
     tort_register_transition(&(app->entity_types[ENTITY_TYPE_TRANSITION]));
     tort_register_user(&(app->entity_types[ENTITY_TYPE_USER]));
     tort_register_noodletown_map(&(app->entity_types[ENTITY_TYPE_NOODLETOWN_MAP]));
+    tort_register_my_house_map(&(app->entity_types[ENTITY_TYPE_MY_HOUSE_MAP]));
     tort_register_sign_interaction(&(app->entity_types[ENTITY_TYPE_SIGN_INTERACTION]));
     tort_register_sign_dialog(&(app->entity_types[ENTITY_TYPE_SIGN_DIALOG]));
     tort_register_small_block(&(app->entity_types[ENTITY_TYPE_SMALL_BLOCK]));
+    tort_register_tile_block(&(app->entity_types[ENTITY_TYPE_TILE_BLOCK]));
+    tort_register_narrow_tile_block(&(app->entity_types[ENTITY_TYPE_NARROW_BLOCK]));
+    tort_register_transition_block(&(app->entity_types[ENTITY_TYPE_TRANSITION_BLOCK]));
+    tort_register_horizontal_block(&(app->entity_types[ENTITY_TYPE_HORIZONTAL_BLOCK]));
+    tort_register_vertical_block(&(app->entity_types[ENTITY_TYPE_VERTICAL_BLOCK]));
+    tort_register_house_transition(&(app->entity_types[ENTITY_TYPE_HOUSE_TRANSITION]));
 
     // push the default input handler
     cr_push_input_handler(app, default_input_handler);
 
     // Load the initial scene.
     tort_load_noodletown_scene(app);
+    // tort_load_my_house_scene(app);
     cr_push_input_handler(app, tort_main_input);
 
     // Seed random number generation.

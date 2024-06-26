@@ -1,10 +1,29 @@
 #include "tort.h"
+#include "input/input.h"
+#include "scenes/scenes.h"
 #include "entities/entity_types.h"
 #include "entities/block.h"
 #include "util/sprite.h"
 
 #include "common/util.h"
 #include "common/collision.h"
+
+static void begin_transition(cr_app *app, cr_func loader, cr_func input)
+{
+    app->transition_loader = loader;
+    app->transition_input = input;
+
+    // Start the screen transition by marking the data field as 1 for any
+    // entity that has an entity type of ENTITY_TYPE_TRANSITION.
+    for (int i = 0; i < app->entity_cap; i++)
+    {
+        if (app->entities[i].type == ENTITY_TYPE_TRANSITION && app->entities[i].present)
+        {
+            app->entities[i].data = 1 | TX_RESUME;
+            app->overlays[app->overlay_count++] = &(app->entities[i]);
+        }
+    }
+}
 
 static void collide_block(
     cr_app *app,
@@ -64,9 +83,17 @@ static void collide_block(
 
         other->y_t += (int)correction;
     }
+
+    if (block->type == ENTITY_TYPE_TRANSITION_BLOCK)
+    {
+        app->pause = 1;
+        cr_pop_input_handler(app);
+        begin_transition(app, tort_load_my_house_scene, tort_main_input);
+        printf("collided with transition block\n");
+    }
 }
 
-static void render_small_block(cr_app *app, cr_entity *block)
+static void render_block(cr_app *app, cr_entity *block)
 {
     if (!util_is_on_screen(app, block))
     {
@@ -87,12 +114,111 @@ static void render_small_block(cr_app *app, cr_entity *block)
     }
 }
 
+static void render_transition_block(cr_app *app, cr_entity *block)
+{
+    if (!util_is_on_screen(app, block))
+    {
+        return;
+    }
+
+    // hit box
+    if (app->debug.hitboxes)
+    {
+        cr_rect hit_box;
+        hit_box.x = block->x_pos + app->cam.x;
+        hit_box.y = block->y_pos + app->cam.y;
+        hit_box.w = app->entity_types[block->type].width;
+        hit_box.h = app->entity_types[block->type].height;
+
+        cr_set_color(app, CR_COLOR_VINIK_ORANGE);
+        cr_draw_rect(app, &hit_box, 0);
+    }
+}
+
+void tort_register_tile_block(cr_entity_type *t)
+{
+    t->id = ENTITY_TYPE_TILE_BLOCK;
+    t->width = 16;
+    t->height = 16;
+    t->render = render_block;
+    t->collide = collide_block;
+}
+
+cr_entity *tort_create_tile_block(cr_app *app, int x, int y)
+{
+    cr_entity *block = NULL;
+
+    block = cr_create_entity(app);
+    if (block == NULL)
+    {
+        return NULL;
+    }
+
+    block->type = ENTITY_TYPE_TILE_BLOCK;
+    block->x_pos = x;
+    block->y_pos = y;
+
+    return block;
+}
+
+void tort_register_narrow_tile_block(cr_entity_type *t)
+{
+    t->id = ENTITY_TYPE_NARROW_BLOCK;
+    t->width = 15;
+    t->height = 16;
+    t->render = render_block;
+    t->collide = collide_block;
+}
+
+cr_entity *tort_create_narrow_tile_block(cr_app *app, int x, int y)
+{
+    cr_entity *block = NULL;
+
+    block = cr_create_entity(app);
+    if (block == NULL)
+    {
+        return NULL;
+    }
+
+    block->type = ENTITY_TYPE_NARROW_BLOCK;
+    block->x_pos = x;
+    block->y_pos = y;
+
+    return block;
+}
+
+void tort_register_transition_block(cr_entity_type *t)
+{
+    t->id = ENTITY_TYPE_TRANSITION_BLOCK;
+    t->width = 18;
+    t->height = 10;
+    t->render = render_transition_block;
+    t->collide = collide_block;
+}
+
+cr_entity *tort_create_transition_block(cr_app *app, int x, int y)
+{
+    cr_entity *block = NULL;
+
+    block = cr_create_entity(app);
+    if (block == NULL)
+    {
+        return NULL;
+    }
+
+    block->type = ENTITY_TYPE_TRANSITION_BLOCK;
+    block->x_pos = x;
+    block->y_pos = y;
+
+    return block;
+}
+
 void tort_register_small_block(cr_entity_type *t)
 {
     t->id = ENTITY_TYPE_SMALL_BLOCK;
     t->width = 14;
     t->height = 14;
-    t->render = render_small_block;
+    t->render = render_block;
     t->collide = collide_block;
 }
 
@@ -107,6 +233,58 @@ cr_entity *tort_create_small_block(cr_app *app, int x, int y)
     }
 
     block->type = ENTITY_TYPE_SMALL_BLOCK;
+    block->x_pos = x;
+    block->y_pos = y;
+
+    return block;
+}
+
+void tort_register_horizontal_block(cr_entity_type *t)
+{
+    t->id = ENTITY_TYPE_HORIZONTAL_BLOCK;
+    t->width = 64;
+    t->height = 16;
+    t->render = render_block;
+    t->collide = collide_block;
+}
+
+cr_entity *tort_create_horizontal_block(cr_app *app, int x, int y)
+{
+    cr_entity *block = NULL;
+
+    block = cr_create_entity(app);
+    if (block == NULL)
+    {
+        return NULL;
+    }
+
+    block->type = ENTITY_TYPE_HORIZONTAL_BLOCK;
+    block->x_pos = x;
+    block->y_pos = y;
+
+    return block;
+}
+
+void tort_register_vertical_block(cr_entity_type *t)
+{
+    t->id = ENTITY_TYPE_VERTICAL_BLOCK;
+    t->width = 16;
+    t->height = 64;
+    t->render = render_block;
+    t->collide = collide_block;
+}
+
+cr_entity *tort_create_vertical_block(cr_app *app, int x, int y)
+{
+    cr_entity *block = NULL;
+
+    block = cr_create_entity(app);
+    if (block == NULL)
+    {
+        return NULL;
+    }
+
+    block->type = ENTITY_TYPE_VERTICAL_BLOCK;
     block->x_pos = x;
     block->y_pos = y;
 

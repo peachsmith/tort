@@ -171,3 +171,29 @@ cr_entity *tort_create_transition(cr_app *app)
 
     return transition;
 }
+
+void tort_register_house_transition(cr_entity_type *t)
+{
+    t->width = 50;
+    t->height = 50;
+    t->render = render_transition;
+    t->update = update_transition;
+}
+
+cr_entity *tort_create_house_transition(cr_app *app)
+{
+    cr_entity *transition = NULL;
+
+    transition = cr_create_entity(app);
+    if (transition == NULL)
+    {
+        return NULL;
+    }
+
+    transition->type = ENTITY_TYPE_HOUSE_TRANSITION;
+    transition->tick_limit = 90;
+    cr_set_flag(transition, ENTITY_FLAG_PAUSE);
+    cr_set_flag(transition, ENTITY_FLAG_MENU);
+
+    return transition;
+}

@@ -18,6 +18,7 @@
 
 // counters
 #define TORT_COUNTER_MAX 20
+#define TORT_COUNTER_60_FRAMES 0
 
 // entity handles
 #define TORT_HANDLE_USER 0
